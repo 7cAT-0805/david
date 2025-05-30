@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 變數和元素
     const photoPath = 'david/photo ';
     const totalPhotos = 20; // 更新照片總數
-    let currentPhotoIndex = 0;
+    let currentPhotoIndex = 1;
     
     // DOM元素
     const preloader = document.querySelector('.preloader');
