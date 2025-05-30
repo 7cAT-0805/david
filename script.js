@@ -85,8 +85,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 變數和元素
     const photoPath = 'david/photo ';
-    const totalPhotos = 20; // 更新照片總數
-    let currentPhotoIndex = 1;
+    const totalPhotos = 19; // 調整為實際照片數
+    let currentPhotoIndex = 1; // 從索引1開始，對應photo (2).jpg
     
     // DOM元素
     const preloader = document.querySelector('.preloader');
@@ -115,6 +115,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化頁面
     initPage();
     
+    // 創建預設記憶 - 為新增的照片創建預設描述
+    function createDefaultMemory(index) {
+        // 計算預設日期 (根據索引調整日期)
+        const baseDate = new Date(2019, 8, 1); // 2019年9月1日作為基準
+        const newDate = new Date(baseDate);
+        newDate.setMonth(baseDate.getMonth() + Math.floor(index / 2));
+        
+        const year = newDate.getFullYear();
+        const month = newDate.getMonth() + 1;
+        
+        return {
+            title: `校園時光 #${index + 1}`,
+            date: `${year}年${month}月`,
+            description: `這是我們在校園共同經歷的又一個美好瞬間。點擊編輯此處，添加關於這張照片的回憶故事。`
+        };
+    }
+    
     function initPage() {
         // 加載動畫
         setTimeout(() => {
@@ -133,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // 延遲打開照片查看器，等待動畫完成
                 setTimeout(() => {
-                    openPhotoViewer(0);
+                    openPhotoViewer(1); // 從第二張照片開始(索引1)
                     this.classList.remove('clicked');
                 }, 300);
             });
@@ -316,15 +333,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function openPhotoViewer(index) {
         currentPhotoIndex = index;
         
-        const memory = memories[index] || createDefaultMemory(index);
+        const memory = memories[index-1] || createDefaultMemory(index-1); // 調整記憶索引
         const savedTitle = localStorage.getItem(`memory-title-${index}`) || memory.title;
         const savedDesc = localStorage.getItem(`memory-description-${index}`) || memory.description;
         
-        photoMain.src = `${photoPath}(${index+1}).jpg`;
+        photoMain.src = `${photoPath}(${index+1}).jpg`; // photo (2).jpg 開始
         photoTitle.textContent = savedTitle;
         photoDate.textContent = memory.date;
         photoDesc.textContent = savedDesc;
-        currentIndexEl.textContent = index + 1;
+        currentIndexEl.textContent = index; // 顯示為照片 1
         
         photoViewer.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -356,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 更新照片查看器
     function updatePhotoViewer() {
-        const memory = memories[currentPhotoIndex] || createDefaultMemory(currentPhotoIndex);
+        const memory = memories[currentPhotoIndex-1] || createDefaultMemory(currentPhotoIndex-1); // 調整記憶索引
         const savedTitle = localStorage.getItem(`memory-title-${currentPhotoIndex}`) || memory.title;
         const savedDesc = localStorage.getItem(`memory-description-${currentPhotoIndex}`) || memory.description;
         
@@ -366,11 +383,11 @@ document.addEventListener('DOMContentLoaded', function() {
         photoContent.style.transform = 'scale(0.95)';
         
         setTimeout(() => {
-            photoMain.src = `${photoPath}(${currentPhotoIndex+1}).jpg`;
+            photoMain.src = `${photoPath}(${currentPhotoIndex+1}).jpg`; // 對應 photo (2).jpg 開始
             photoTitle.textContent = savedTitle;
             photoDate.textContent = memory.date;
             photoDesc.textContent = savedDesc;
-            currentIndexEl.textContent = currentPhotoIndex + 1;
+            currentIndexEl.textContent = currentPhotoIndex; // 顯示為照片 1
             
             // 淡入效果
             photoContent.style.opacity = '1';
