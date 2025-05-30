@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>溫馨回憶集</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 導航 -->
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">溫馨回憶集</a>
+            <nav class="nav-links">
+                <a href="#memories" class="nav-link">珍藏回憶</a>
+                <a href="#about" class="nav-link">暖心話語</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 英雄區域 -->
+        <section class="hero">
+            <div class="hero-background"></div>
+            <h1 class="hero-title">溫馨時光的記憶盒</h1>
+            <p class="hero-subtitle">收藏我們共同編織的珍貴時刻，讓這份生日禮物溫暖你的每個日子。</p>
+            <a href="#memories" class="hero-scroll">
+                <span>探索回憶</span>
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12l7 7 7-7"></path>
+                </svg>
+            </a>
+        </section>
+
+        <!-- 回憶集區域 -->
+        <section id="memories" class="memories-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">我們的珍藏時光</h2>
+                    <p class="section-description">這些點點滴滴的溫馨瞬間，如同璀璨星光，照亮我們共同走過的道路。願這些回憶帶給你生日的喜悅與感動。</p>
+                </div>
+                <div class="memories-grid">
+                    <!-- JavaScript 將在這裡動態加載記憶項目 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 關於區域 -->
+        <section id="about" class="memories-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">暖心的話語</h2>
+                    <p class="section-description">
+                        這是我用心為你準備的生日禮物，收集了我們之間最溫暖的回憶。每一張照片都承載著特別的時光，
+                        每一個故事都見證了我們之間珍貴的情誼。願這份禮物能在你的生日帶給你溫暖和感動，
+                        就像你一直以來給予我的那樣。生日快樂！
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">用 <span class="footer-heart">❤</span> 製作 | 生日快樂！</p>
+        </div>
+    </footer>
+
+    <!-- 模態框 -->
+    <div class="modal">
+        <div class="modal-content">
+            <div class="modal-image">
+                <img src="" alt="溫馨回憶">
+            </div>
+            <div class="modal-info">
+                <h3 class="modal-title"></h3>
+                <p class="modal-description"></p>
+            </div>
+            <button class="modal-close">
+                <svg viewBox="0 0 24 24">
+                    <path d="M18 6L6 18M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div class="modal-nav">
+                <button class="modal-nav-button prev-button">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                </button>
+                <button class="modal-nav-button next-button">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
