@@ -882,6 +882,67 @@ button {
     .gallery-grid {
         padding: 0 var(--space-sm);
     }
+    
+    /* 照片查看器移動端優化 */
+    .photo-content {
+        flex-direction: column;
+    }
+    
+    .photo-main {
+        max-height: 70vh;
+        flex: 0 0 auto;
+    }
+    
+    .photo-info {
+        max-height: none;
+        padding: var(--spacing-md);
+    }
+    
+    /* 固定導航按鈕在頂部，確保始終可見 */
+    .photo-nav {
+        position: fixed;
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+        z-index: 11;
+        pointer-events: none; /* 防止按鈕阻擋照片內容點擊 */
+    }
+    
+    /* 設置按鈕樣式 */
+    .prev-photo, .next-photo {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto; /* 確保按鈕可點擊 */
+        opacity: 0.7;
+        transition: opacity 0.3s, transform 0.3s;
+    }
+    
+    .prev-photo:hover, .next-photo:hover {
+        opacity: 1;
+    }
+    
+    /* 將計數器移至底部 */
+    .photo-counter {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 5px 15px;
+        pointer-events: none;
+    }
 }
 
 /* 回憶廊按鈕 */

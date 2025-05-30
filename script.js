@@ -257,6 +257,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 添加滾動動畫
         addScrollAnimations();
+        
+        // 添加觸摸滑動支持
+        setupTouchNavigation();
     }
     
     // 添加滾動動畫
@@ -454,5 +457,139 @@ document.addEventListener('DOMContentLoaded', function() {
             if (savedTitle) title.textContent = savedTitle;
             if (savedDesc) excerpt.textContent = savedDesc;
         }
+    }
+    
+    // 添加觸摸滑動支持
+    function setupTouchNavigation() {
+        let startX, startY;
+        let distX, distY;
+        const minSwipeDistance = 50;
+        
+        photoViewer.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }, false);
+        
+        photoViewer.addEventListener('touchmove', function(e) {
+            if (!startX || !startY) return;
+            
+            distX = e.touches[0].clientX - startX;
+            distY = e.touches[0].clientY - startY;
+            
+            // 如果垂直滑動距離大於水平滑動，則不阻止預設行為（允許正常滾動）
+            if (Math.abs(distY) > Math.abs(distX)) return;
+            
+            // 阻止水平滑動時的頁面滾動
+            if (Math.abs(distX) > 10) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        photoViewer.addEventListener('touchend', function(e) {
+            if (!startX || !startY) return;
+            
+            distX = e.changedTouches[0].clientX - startX;
+            distY = e.changedTouches[0].clientY - startY;
+            
+            // 確保水平滑動距離大於垂直滑動
+            if (Math.abs(distX) > Math.abs(distY)) {
+                if (Math.abs(distX) > minSwipeDistance) {
+                    if (distX > 0) {
+                        // 向右滑動 - 上一張
+                        prevPhoto();
+                    } else {
+                        // 向左滑動 - 下一張
+                        nextPhoto();
+                    }
+                }
+            }
+            
+            // 重置
+            startX = null;
+            startY = null;
+        }, false);
+        
+        // 為每次照片切換添加視覺提示
+        function showSwipeIndicator(direction) {
+            const indicator = document.createElement('div');
+            indicator.className = 'swipe-indicator ' + direction;
+            photoViewer.appendChild(indicator);
+            
+            setTimeout(() => {
+                indicator.classList.add('active');
+            }, 10);
+            
+            setTimeout(() => {
+                indicator.classList.remove('active');
+                setTimeout(() => {
+                    photoViewer.removeChild(indicator);
+                }, 300);
+            }, 500);
+        }
+        
+        // 添加指示器樣式
+        const style = document.createElement('style');
+        style.textContent = `
+            .swipe-indicator {
+                position: fixed;
+                top: 50%;
+                transform: translateY(-50%) scale(0);
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.3);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                transition: opacity 0.3s, transform 0.3s;
+                z-index: 1001;
+            }
+            
+            .swipe-indicator.left {
+                right: 30px;
+            }
+            
+            .swipe-indicator.right {
+                left: 30px;
+            }
+            
+            .swipe-indicator.active {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+            
+            .swipe-indicator::before {
+                content: '';
+                width: 20px;
+                height: 20px;
+                border-top: 3px solid white;
+                border-right: 3px solid white;
+                display: block;
+            }
+            
+            .swipe-indicator.left::before {
+                transform: rotate(45deg);
+            }
+            
+            .swipe-indicator.right::before {
+                transform: rotate(-135deg);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 修改原有的前後導航函數，添加視覺指示
+        const originalPrevPhoto = prevPhoto;
+        const originalNextPhoto = nextPhoto;
+        
+        prevPhoto = function() {
+            showSwipeIndicator('right');
+            originalPrevPhoto();
+        };
+        
+        nextPhoto = function() {
+            showSwipeIndicator('left');
+            originalNextPhoto();
+        };
     }
 });
