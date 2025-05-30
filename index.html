@@ -3,96 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>溫馨回憶集</title>
+    <title>畢業回憶錄</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Serif+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 導航 -->
-    <header class="header">
-        <div class="container header-inner">
-            <a href="#" class="logo">溫馨回憶集</a>
-            <nav class="nav-links">
-                <a href="#memories" class="nav-link">珍藏回憶</a>
-                <a href="#about" class="nav-link">暖心話語</a>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- 頁面加載動畫 -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <span>Happy</span>
+            <span>Graduation</span>
+        </div>
+    </div>
+
+    <!-- 頁面容器 -->
+    <div class="page-container">
+        <!-- 導航 -->
+        <header class="site-header">
+            <div class="logo">
+                <a href="#home">HGD</a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#home">首頁</a></li>
+                    <li><a href="#gallery">回憶廊</a></li>
+                    <li><a href="#wishes">祝福語</a></li>
+                </ul>
             </nav>
-        </div>
-    </header>
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+            </button>
+        </header>
 
-    <main>
-        <!-- 英雄區域 -->
-        <section class="hero">
-            <div class="hero-background"></div>
-            <h1 class="hero-title">溫馨時光的記憶盒</h1>
-            <p class="hero-subtitle">收藏我們共同編織的珍貴時刻，讓這份生日禮物溫暖你的每個日子。</p>
-            <a href="#memories" class="hero-scroll">
-                <span>探索回憶</span>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 5v14M5 12l7 7 7-7"></path>
-                </svg>
-            </a>
-        </section>
-
-        <!-- 回憶集區域 -->
-        <section id="memories" class="memories-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">我們的珍藏時光</h2>
-                    <p class="section-description">這些點點滴滴的溫馨瞬間，如同璀璨星光，照亮我們共同走過的道路。願這些回憶帶給你生日的喜悅與感動。</p>
+        <!-- 首頁區域 -->
+        <section id="home" class="hero-section">
+            <div class="hero-content">
+                <div class="hero-title-wrapper">
+                    <h1 class="hero-title">畢業快樂</h1>
+                    <p class="hero-subtitle">獻給即將展翅高飛的你</p>
                 </div>
-                <div class="memories-grid">
-                    <!-- JavaScript 將在這裡動態加載記憶項目 -->
+                <a href="#gallery" class="scroll-down">
+                    <span>探索回憶</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14M5 12l7 7 7-7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="hero-image-wrapper">
+                <div class="hero-image-inner">
+                    <img src="david/photo (1).jpg" alt="回憶封面">
                 </div>
             </div>
         </section>
 
-        <!-- 關於區域 -->
-        <section id="about" class="memories-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">暖心的話語</h2>
-                    <p class="section-description">
-                        這是我用心為你準備的生日禮物，收集了我們之間最溫暖的回憶。每一張照片都承載著特別的時光，
-                        每一個故事都見證了我們之間珍貴的情誼。願這份禮物能在你的生日帶給你溫暖和感動，
-                        就像你一直以來給予我的那樣。生日快樂！
+        <!-- 回憶廊 -->
+        <section id="gallery" class="gallery-section">
+            <header class="section-header">
+                <h2 class="section-title">回憶廊</h2>
+                <p class="section-subtitle">校園時光的珍貴瞬間</p>
+            </header>
+            
+            <div class="gallery-grid">
+                <!-- JavaScript將動態生成內容 -->
+            </div>
+        </section>
+
+        <!-- 祝福語 -->
+        <section id="wishes" class="wishes-section">
+            <div class="wishes-content">
+                <header class="section-header">
+                    <h2 class="section-title">畢業祝福</h2>
+                </header>
+                <div class="wish-card">
+                    <p class="wish-text">
+                        親愛的朋友，在你畢業的這個重要時刻，我想獻上最真摯的祝福。回首過去的校園時光，有你相伴的每一刻都如此珍貴。
+                        那些笑聲、淚水、奮鬥與成長，都是我們共同編織的美麗回憶。
                     </p>
+                    <p class="wish-text">
+                        願這份回憶錄能勾起你對校園生活的美好回憶，也願你未來的道路充滿陽光與希望。
+                        無論身在何處，我的祝福與你同在。畢業快樂，前程似錦！
+                    </p>
+                    <div class="signature">
+                        <span>永遠的朋友</span>
+                    </div>
                 </div>
             </div>
         </section>
-    </main>
 
-    <!-- 頁尾 -->
-    <footer class="footer">
-        <div class="container">
-            <p class="footer-text">用 <span class="footer-heart">❤</span> 製作 | 生日快樂！</p>
-        </div>
-    </footer>
+        <!-- 頁尾 -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; 2024 畢業回憶錄</p>
+                <p class="heart-text">Made with <span class="heart">♥</span></p>
+            </div>
+        </footer>
+    </div>
 
-    <!-- 模態框 -->
-    <div class="modal">
-        <div class="modal-content">
-            <div class="modal-image">
-                <img src="" alt="溫馨回憶">
-            </div>
-            <div class="modal-info">
-                <h3 class="modal-title"></h3>
-                <p class="modal-description"></p>
-            </div>
-            <button class="modal-close">
-                <svg viewBox="0 0 24 24">
+    <!-- 照片查看器 -->
+    <div class="photo-viewer">
+        <div class="photo-container">
+            <button class="close-viewer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M18 6L6 18M6 6l12 12"></path>
                 </svg>
             </button>
-            <div class="modal-nav">
-                <button class="modal-nav-button prev-button">
-                    <svg viewBox="0 0 24 24">
+            <div class="photo-content">
+                <div class="photo-main">
+                    <img src="" alt="記憶照片">
+                </div>
+                <div class="photo-info">
+                    <h3 class="photo-title"></h3>
+                    <p class="photo-date"></p>
+                    <p class="photo-description"></p>
+                </div>
+            </div>
+            <div class="photo-nav">
+                <button class="prev-photo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M15 18l-6-6 6-6"></path>
                     </svg>
                 </button>
-                <button class="modal-nav-button next-button">
-                    <svg viewBox="0 0 24 24">
+                <div class="photo-counter">
+                    <span class="current-index">1</span>
+                    <span class="total-count">16</span>
+                </div>
+                <button class="next-photo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M9 18l6-6-6-6"></path>
                     </svg>
                 </button>
