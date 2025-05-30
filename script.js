@@ -109,6 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const cursor = document.querySelector('.cursor');
     const cursorFollower = document.querySelector('.cursor-follower');
     
+    // 獲取開啟回憶廊按鈕
+    const openGalleryBtn = document.getElementById('open-gallery');
+    
     // 初始化頁面
     initPage();
     
@@ -119,8 +122,51 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => preloader.style.display = 'none', 800);
         }, 1800);
         
-        // 生成回憶卡片
-        loadGallery();
+        // 移除舊的圖片載入相關代碼
+        // loadGallery(); // 不再需要載入圖片縮略圖
+        
+        // 添加開啟回憶廊按鈕事件監聽
+        if (openGalleryBtn) {
+            openGalleryBtn.addEventListener('click', function() {
+                // 添加點擊動畫
+                this.classList.add('clicked');
+                
+                // 延遲打開照片查看器，等待動畫完成
+                setTimeout(() => {
+                    openPhotoViewer(0);
+                    this.classList.remove('clicked');
+                }, 300);
+            });
+        }
+        
+        // 獲取首頁開啟回憶廊按鈕
+        const heroOpenGalleryBtn = document.getElementById('hero-open-gallery');
+        
+        // 添加首頁按鈕點擊事件監聽
+        if (heroOpenGalleryBtn) {
+            heroOpenGalleryBtn.addEventListener('click', function() {
+                // 添加點擊動畫
+                this.classList.add('clicked');
+                
+                // 延遲打開照片查看器，等待動畫完成
+                setTimeout(() => {
+                    openPhotoViewer(0);
+                    this.classList.remove('clicked');
+                }, 300);
+            });
+        }
+        
+        // 修改事件監聽，移除舊的點擊監聽代碼
+        // 不再需要監聽縮略圖點擊事件
+        /*
+        document.addEventListener('click', e => {
+            const galleryItem = e.target.closest('.gallery-item');
+            if (galleryItem) {
+                const index = parseInt(galleryItem.dataset.index);
+                openPhotoViewer(index);
+            }
+        });
+        */
         
         // 自定義鼠標指針
         document.addEventListener('mousemove', e => {
@@ -164,15 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // 事件監聽
-        // 打開照片查看器
-        document.addEventListener('click', e => {
-            const galleryItem = e.target.closest('.gallery-item');
-            if (galleryItem) {
-                const index = parseInt(galleryItem.dataset.index);
-                openPhotoViewer(index);
-            }
-        });
-        
         // 照片查看器控制
         closeBtn.addEventListener('click', closePhotoViewer);
         prevBtn.addEventListener('click', prevPhoto);
@@ -200,61 +237,81 @@ document.addEventListener('DOMContentLoaded', function() {
                 mainNav.classList.remove('active');
             });
         });
+        
+        // 添加滾動動畫
+        addScrollAnimations();
     }
     
-    // 載入記憶卡片
-    function loadGallery() {
-        galleryGrid.innerHTML = '';
+    // 添加滾動動畫
+    function addScrollAnimations() {
+        const sections = document.querySelectorAll('section');
         
-        for (let i = 0; i < totalPhotos; i++) {
-            const memory = memories[i] || createDefaultMemory(i); // 使用現有記憶或創建預設記憶
-            const savedTitle = localStorage.getItem(`memory-title-${i}`) || memory.title;
-            const savedDesc = localStorage.getItem(`memory-description-${i}`) || memory.description;
-            
-            const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item fade-in';
-            galleryItem.dataset.index = i;
-            
-            galleryItem.innerHTML = `
-                <div class="gallery-image">
-                    <img src="${photoPath}(${i+1}).jpg" alt="${savedTitle}" loading="lazy">
-                </div>
-                <div class="gallery-info">
-                    <div class="gallery-date">${memory.date}</div>
-                    <h3 class="gallery-title">${savedTitle}</h3>
-                    <p class="gallery-excerpt">${savedDesc}</p>
-                </div>
-            `;
-            
-            galleryGrid.appendChild(galleryItem);
-        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    
+                    // 為子元素添加進入動畫
+                    const children = entry.target.querySelectorAll('.animate-child');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('animated');
+                        }, 200 * index);
+                    });
+                }
+            });
+        }, { threshold: 0.2 });
         
-        // 設置總數
+        sections.forEach(section => {
+            observer.observe(section);
+            
+            // 設置初始隱藏狀態
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            
+            // 添加動畫類
+            const sectionHeader = section.querySelector('.section-header');
+            const galleryButton = section.querySelector('.gallery-button-container');
+            const wishCard = section.querySelector('.wish-card');
+            
+            if (sectionHeader) sectionHeader.classList.add('animate-child');
+            if (galleryButton) galleryButton.classList.add('animate-child');
+            if (wishCard) wishCard.classList.add('animate-child');
+            
+            // 設置初始隱藏狀態
+            section.querySelectorAll('.animate-child').forEach(child => {
+                child.style.opacity = '0';
+                child.style.transform = 'translateY(30px)';
+                child.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            });
+        });
+        
+        // 添加 CSS 類定義
+        const style = document.createElement('style');
+        style.textContent = `
+            section.animated {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+            .animate-child.animated {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+            .gallery-button.clicked {
+                transform: scale(0.95);
+                box-shadow: 0 5px 15px rgba(58, 123, 213, 0.2) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // 更新總照片數
+    if (totalCountEl) {
         totalCountEl.textContent = totalPhotos;
     }
     
-    // 更新最後一個記憶的描述
-    if (memories.length > 0) {
-        memories[memories.length - 1].description = '畢業不是結束，而是新的開始。願你在未來的道路上一切順利，實現自己的夢想。我們的友誼將永遠陪伴著你。畢業快樂，親愛的朋友！';
-    }
-    
-    // 創建預設記憶 - 為新增的照片創建預設描述
-    function createDefaultMemory(index) {
-        // 計算預設日期 (根據索引調整日期)
-        const baseDate = new Date(2019, 8, 1); // 2019年9月1日作為基準
-        const newDate = new Date(baseDate);
-        newDate.setMonth(baseDate.getMonth() + Math.floor(index / 2));
-        
-        const year = newDate.getFullYear();
-        const month = newDate.getMonth() + 1;
-        
-        return {
-            title: `校園時光 #${index + 1}`,
-            date: `${year}年${month}月`,
-            description: `這是我們在校園共同經歷的又一個美好瞬間。點擊編輯此處，添加關於這張照片的回憶故事。`
-        };
-    }
-    
+    // 打開照片查看器函數保持不變
     // 打開照片查看器
     function openPhotoViewer(index) {
         currentPhotoIndex = index;
@@ -366,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 更新畫廊項目
+    // 更新畫廊標題
     function updateGalleryItem(index) {
         const galleryItems = document.querySelectorAll('.gallery-item');
         const item = galleryItems[index];
